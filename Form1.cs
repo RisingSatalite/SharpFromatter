@@ -21,8 +21,8 @@ public partial class Form1 : Form
 
             string newText = "";
             string[] readBy = readText.Split('\n');
-            bool lastLineEmpty = false;
-            
+            bool lastLineEmpty = true;//Intial true incase first line is empty
+            bool isFirst = true;
             foreach(string line in readBy){
                 Console.WriteLine($"'{line}'"); // helps debugging
                 if (string.IsNullOrWhiteSpace(line.Trim()))
@@ -35,8 +35,14 @@ public partial class Form1 : Form
                         newText += '\n';
                         continue;
                     }
+                }else if(isFirst)
+                {
+                    newText += line.TrimEnd();/*Need no spaces at the end*/
+                    lastLineEmpty = false;
+                    isFirst = false;
+                    continue;
                 }
-                newText += line.TrimEnd()/*Need no spaces at the end*/ + '\n'; // Remove trailing \r if needed
+                newText += '\n' + line.TrimEnd()/*Need no spaces at the end*/;
                 lastLineEmpty = false;
             }
             Console.WriteLine("Final");
