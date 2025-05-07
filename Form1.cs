@@ -23,15 +23,20 @@ public partial class Form1 : Form
             string[] readBy = readText.Split('\n');
             bool lastLineEmpty = false;
             foreach(string line in readBy){
-                Console.WriteLine(line);
-                if(line == null || line == ""){
+                Console.WriteLine($"'{line}'"); // helps debugging
+                if (string.IsNullOrWhiteSpace(line.Trim()))
+                {
                     if(lastLineEmpty){
+                        Console.WriteLine("Removing extra line");
                         continue;
                     }else{
                         lastLineEmpty = true;
+                        newText += '\n';
+                        continue;
                     }
                 }
-                newText += line + '\n';
+                newText += line.TrimEnd()/*Need no spaces at the end*/ + '\n'; // Remove trailing \r if needed
+                lastLineEmpty = false;
             }
             Console.WriteLine("Final");
             Console.WriteLine(newText);
