@@ -22,11 +22,19 @@ public partial class Form1 : Form
             string fileType = Path.GetExtension(selectedFile);
             Console.WriteLine("File type: " + fileType);
 
+            //Not able to format
+            if(fileType == ".png" || fileType == ".svg" || fileType == ".img"){
+                Console.WriteLine("File type not supported");
+                return;
+            }
+
+            //Varibles
             string newText = "";
             string[] readBy = readText.Split('\n');
             bool lastLineEmpty = true;//Intial true incase first line is empty
             bool isFirst = true;
             int tabSpacing = 0;
+
             foreach(string line in readBy){
                 Console.WriteLine($"'{line}'"); // helps debugging
                 if (string.IsNullOrWhiteSpace(line.Trim()))
