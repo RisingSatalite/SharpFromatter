@@ -12,3 +12,4 @@ C:\Users\Saiha\Documents\Github\SharpFromatter\obj\Debug\net9.0-windows\refint\S
 C:\Users\Saiha\Documents\Github\SharpFromatter\obj\Debug\net9.0-windows\SharpFromatter.pdb
 C:\Users\Saiha\Documents\Github\SharpFromatter\obj\Debug\net9.0-windows\SharpFromatter.genruntimeconfig.cache
 C:\Users\Saiha\Documents\Github\SharpFromatter\obj\Debug\net9.0-windows\ref\SharpFromatter.dll
+C:\Users\Saiha\Documents\Github\SharpFromatter\obj\Debug\net9.0-windows\SharpFromatter.sourcelink.json
