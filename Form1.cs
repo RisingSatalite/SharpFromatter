@@ -57,7 +57,10 @@ public partial class Form1 : Form
 					continue;
 				}
 
-				if(fileType == ".cs"){
+                List<string> BraceBased = new List<string> { ".js", ".cs", ".c", ".cpp", ".java" };
+                List<string> IndentationBased = new List<string> { ".py", ".gd" };
+
+				if(BraceBased.Contains(fileType)){
 					//Added the line
 
 				int countCloseBracket = line.Count(c => c == '}');
