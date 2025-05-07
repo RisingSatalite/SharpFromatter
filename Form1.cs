@@ -22,6 +22,7 @@ public partial class Form1 : Form
             string newText = "";
             string[] readBy = readText.Split('\n');
             bool lastLineEmpty = false;
+            
             foreach(string line in readBy){
                 Console.WriteLine($"'{line}'"); // helps debugging
                 if (string.IsNullOrWhiteSpace(line.Trim()))
@@ -40,6 +41,8 @@ public partial class Form1 : Form
             }
             Console.WriteLine("Final");
             Console.WriteLine(newText);
+            //Override file with new text
+            File.WriteAllText(selectedFile, newText);
         }
         else
         {
