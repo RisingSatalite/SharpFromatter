@@ -42,7 +42,7 @@ public partial class Form1 : Form
                     isFirst = false;
                     continue;
                 }
-                newText += '\n' + line.TrimEnd()/*Need no spaces at the end*/;
+                newText += '\n'/*Add new line here since no need to add at end of line, as may add extra*/ + line.TrimEnd()/*Need no spaces at the end*/;
                 lastLineEmpty = false;
             }
             Console.WriteLine("Final");
