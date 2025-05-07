@@ -57,8 +57,11 @@ public partial class Form1 : Form
 					continue;
 				}
 
-                List<string> BraceBased = new List<string> { ".js", ".cs", ".c", ".cpp", ".java" };
+                List<string> BraceBased = new List<string> { ".js", "ts", ".cs", ".c", ".cpp", ".java" };
                 List<string> IndentationBased = new List<string> { ".py", ".gd" };
+				List<string> MarkupBased = new List<string> { ".html", ".jsx" };
+				List<string> KeywordBased = new List<string> { ".lua" };
+				List<string> ExpressiveBased = new List<string> { ".scheme"};
 
 				if(BraceBased.Contains(fileType)){
 					//Added the line
