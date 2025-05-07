@@ -19,10 +19,14 @@ public partial class Form1 : Form
             string readText = File.ReadAllText(selectedFile);
             Console.WriteLine(readText);
 
+            string fileType = Path.GetExtension(selectedFile);
+            Console.WriteLine("File type: " + fileType);
+
             string newText = "";
             string[] readBy = readText.Split('\n');
             bool lastLineEmpty = true;//Intial true incase first line is empty
             bool isFirst = true;
+            int tabSpacing = 0;
             foreach(string line in readBy){
                 Console.WriteLine($"'{line}'"); // helps debugging
                 if (string.IsNullOrWhiteSpace(line.Trim()))
