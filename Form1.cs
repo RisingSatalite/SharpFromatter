@@ -33,7 +33,8 @@ public partial class Form1 : Form
             string[] readBy = readText.Split('\n');
             bool lastLineEmpty = true;//Intial true incase first line is empty
             bool isFirst = true;
-            int tabSpacing = 0;
+            int indentSpacing = 0;
+            bool commented = false;
 
             foreach(string line in readBy){
                 Console.WriteLine($"'{line}'"); // helps debugging
@@ -54,7 +55,28 @@ public partial class Form1 : Form
                     isFirst = false;
                     continue;
                 }
-                newText += '\n'/*Add new line here since no need to add at end of line, as may add extra*/ + line.TrimEnd()/*Need no spaces at the end*/;
+
+                if(fileType == ".cs"){
+                    //Added the line
+                    
+                    int countCloseBracket = line.Count(c => c == '}');
+
+                    bool offSetForClosingBracket = false;//Incase the below is true
+                    if(countCloseBracket>0){
+                        offSetForClosingBracket = true;
+                        indentSpacing -= 1;
+                    }
+                    newText += '\n' + (indentSpacing * '\t') + line.Trim();
+
+                    int countOpenBracket = line.Count(c => c == '{');
+                    
+                    if(offSetForClosingBracket){
+                        indentSpacing -= 1;
+                    }
+                    indentSpacing += countOpenBracket - countCloseBracket;
+                }else{
+                    newText += '\n'/*Add new line here since no need to add at end of line, as may add extra*/ + line.TrimEnd()/*Need no spaces at the end*/;
+                }
                 lastLineEmpty = false;
             }
             Console.WriteLine("Final");
