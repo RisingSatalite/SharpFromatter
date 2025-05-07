@@ -34,7 +34,8 @@ public partial class Form1 : Form
 			bool lastLineEmpty = true;//Intial true incase first line is empty
 			bool isFirst = true;
 			int indentSpacing = 0;
-			bool commented = false;
+            //Detect comments
+			//bool commented = false;
 
 			foreach(string line in readBy){
 			Console.WriteLine($"'{line}'"); // helps debugging
