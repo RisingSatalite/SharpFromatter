@@ -66,7 +66,7 @@ public partial class Form1 : Form
                         offSetForClosingBracket = true;
                         indentSpacing -= 1;
                     }
-                    newText += '\n' + (indentSpacing * '\t') + line.Trim();
+                    newText += '\n' + new string('\t', Math.Max(indentSpacing, 0)) + line.Trim();
 
                     int countOpenBracket = line.Count(c => c == '{');
                     
