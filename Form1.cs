@@ -62,14 +62,14 @@ public partial class Form1 : Form
 
 				int countCloseBracket = line.Count(c => c == '}');
 
-				bool offSetForClosingBracket = false;//Incase the below is true
-				if(countCloseBracket>0){
-					offSetForClosingBracket = true;
-					indentSpacing -= 1;
-				}
-				newText += '\n' + new string('\t', Math.Max(indentSpacing, 0)) + line.Trim();
+                    bool offSetForClosingBracket = false;//Incase the below is true
+                    if(countCloseBracket>0){
+                        offSetForClosingBracket = true;
+                        indentSpacing -= 1;
+                    }
+                    newText += '\n' + new string('\t', Math.Max(indentSpacing, 0)) + line.Trim();
 
-				int countOpenBracket = line.Count(c => c == '{');
+                    int countOpenBracket = line.Count(c => c == '{');
 
 					if(offSetForClosingBracket){
 						indentSpacing += 1;
