@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SharpFromatter")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+bc8e68814d7c25e85df557212e1258c957178d5a")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+39fe7f59d2dbb5fa6e147873ca61d3d336a863dd")]
 [assembly: System.Reflection.AssemblyProductAttribute("SharpFromatter")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SharpFromatter")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

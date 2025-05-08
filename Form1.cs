@@ -8,8 +8,9 @@ public partial class Form1 : Form
 	{
 		InitializeComponent();
 		Button rerunButton = new Button();
-		rerunButton.Text = "Rerun Formatter";
+		rerunButton.Text = "Select file to Reformat";
 		rerunButton.Location = new Point(10, 10); // adjust position
+		rerunButton.Size = new Size(200, 100); // Width = 200px, Height = 60px
 		rerunButton.Click += (sender, e) => RunFormatter();
 		this.Controls.Add(rerunButton);
 	}
