@@ -42,6 +42,7 @@ public partial class Form1 : Form
 			bool lastLineEmpty = true;
 			bool isFirst = true;
 			int indentSpacing = 0;
+			int indentSpacingCounter = 0;//Used for indent based scripts
 
 			foreach (string line in readBy)
 			{
@@ -101,8 +102,33 @@ public partial class Form1 : Form
 					//Change offset for next line
 					indentSpacing += countOpenBracket - countCloseBracket;
 				}
-				else if(1==2 && IndentationBased.Contains(fileType)){
-					newText += '\n' + line.TrimEnd();
+				else if(1==2 & IndentationBased.Contains(fileType)){
+					//Is it a full comment
+					string simpleLine = line.Trim();
+					if(simpleLine[0] == '#'){
+						newText += '\n' + new string('\t', Math.Max(indentSpacing, 0)) + line.Trim();
+						continue;
+					}
+
+					//Detect indentation
+					int whitespaceCount = 0;
+					foreach (char c in line)
+					{
+						if (char.IsWhiteSpace(c))
+							whitespaceCount++;
+						else
+							break;
+					}
+
+					if(whitespaceCount == indentSpacingCounter){
+						newText += '\n' + new string('\t', Math.Max(indentSpacing, 0)) + line.Trim();
+					}else if(whitespaceCount > indentSpacingCounter){
+						indentSpacing += 1;
+						newText += '\n' + new string('\t', Math.Max(indentSpacing, 0)) + line.Trim();
+					}else if(whitespaceCount < indentSpacingCounter){
+						indentSpacing -= 1;
+						newText += '\n' + new string('\t', Math.Max(indentSpacing, 0)) + line.Trim();
+					}
 				}
 				else
 				{
