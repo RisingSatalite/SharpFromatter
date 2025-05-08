@@ -45,7 +45,7 @@ public partial class Form1 : Form
 
 			foreach (string line in readBy)
 			{
-			Console.WriteLine($"'{line}'");
+				Console.WriteLine($"'{line}'");
 				if (string.IsNullOrWhiteSpace(line.Trim()))
 				{
 					if (lastLineEmpty)
@@ -76,22 +76,29 @@ public partial class Form1 : Form
 
 				if (BraceBased.Contains(fileType))
 				{
-				int countCloseBracket = line.Count(c => c == '}');
-				bool offSetForClosingBracket = false;
-				if (countCloseBracket > 0)
-				{
-					offSetForClosingBracket = true;
-					indentSpacing -= 1;
-				}
+					int countOpenBracket = line.Count(c => c == '{');
+					int countCloseBracket = line.Count(c => c == '}');
+					bool offSetForClosingBracket = false;
+					if (countCloseBracket == 1 && countOpenBracket == 1){
+						if(line.IndexOf('{') > line.IndexOf('}'))
+						{
+							offSetForClosingBracket = true;
+							indentSpacing -= 1;
+						}
+					}
+					else if (countCloseBracket > 0)
+					{
+						offSetForClosingBracket = true;
+						indentSpacing -= 1;
+					}
 
-				newText += '\n' + new string('\t', Math.Max(indentSpacing, 0)) + line.Trim();
-				int countOpenBracket = line.Count(c => c == '{');
+					newText += '\n' + new string('\t', Math.Max(indentSpacing, 0)) + line.Trim();
 
-				if (offSetForClosingBracket){
-					indentSpacing += 1;
-				}
+					if (offSetForClosingBracket){
+						indentSpacing += 1;
+					}
 
-				indentSpacing += countOpenBracket - countCloseBracket;
+					indentSpacing += countOpenBracket - countCloseBracket;
 				}
 				else
 				{
