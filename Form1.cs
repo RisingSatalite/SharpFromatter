@@ -98,7 +98,11 @@ public partial class Form1 : Form
 						indentSpacing += 1;
 					}
 
+					//Change offset for next line
 					indentSpacing += countOpenBracket - countCloseBracket;
+				}
+				else if(1==2 && IndentationBased.Contains(fileType)){
+					newText += '\n' + line.TrimEnd();
 				}
 				else
 				{
