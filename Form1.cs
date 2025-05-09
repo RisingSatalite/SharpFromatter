@@ -1,6 +1,7 @@
 namespace SharpFromatter;
 
 using System.IO;
+using System.Collections;
 
 public partial class Form1 : Form
 {
@@ -42,7 +43,8 @@ public partial class Form1 : Form
 			bool lastLineEmpty = true;
 			bool isFirst = true;
 			int indentSpacing = 0;
-			int indentSpacingCounter = 0;//Used for indent based scripts
+			Stack<int> indentSpacingCounter = new Stack<int>();//Used for indent based scripts
+			indentSpacingCounter.Push(0);
 
 			foreach (string line in readBy)
 			{
@@ -102,7 +104,7 @@ public partial class Form1 : Form
 					//Change offset for next line
 					indentSpacing += countOpenBracket - countCloseBracket;
 				}
-				else if(1==2 & IndentationBased.Contains(fileType)){
+				else if(IndentationBased.Contains(fileType)){
 					//Is it a full comment
 					string simpleLine = line.Trim();
 					if(simpleLine[0] == '#'){
@@ -120,16 +122,31 @@ public partial class Form1 : Form
 							break;
 					}
 
-					if(whitespaceCount == indentSpacingCounter){
+					if(whitespaceCount == indentSpacingCounter.Peek()){
 						Console.WriteLine("Same block");
+						//No need to change indentSpacingCounter as equal right now
 						newText += '\n' + new string('\t', Math.Max(indentSpacing, 0)) + line.Trim();
-					}else if(whitespaceCount > indentSpacingCounter){
+					}else if(whitespaceCount > indentSpacingCounter.Peek()){
 						Console.WriteLine("New block");
 						indentSpacing += 1;
+						indentSpacingCounter.Push(whitespaceCount);
 						newText += '\n' + new string('\t', Math.Max(indentSpacing, 0)) + line.Trim();
-					}else if(whitespaceCount < indentSpacingCounter){
+					}else if(whitespaceCount < indentSpacingCounter.Peek()){
 						Console.WriteLine("Returning to old block");
-						indentSpacing -= 1;
+						while(true){
+							indentSpacing -= 1;
+							indentSpacingCounter.Pop();
+							if(whitespaceCount == indentSpacingCounter.Peek()){
+								break;
+							}
+							else if(whitespaceCount > indentSpacingCounter.Peek()){
+								//Incase of some sort of issue where indent is not seen before, this is a sort of failsafe
+								Console.WriteLine("Indent issue detected, failsafe activated");
+								indentSpacingCounter.Push(whitespaceCount);
+								indentSpacing += 1;
+								break;
+							}
+						}
 						newText += '\n' + new string('\t', Math.Max(indentSpacing, 0)) + line.Trim();
 					}
 				}
