@@ -121,11 +121,14 @@ public partial class Form1 : Form
 					}
 
 					if(whitespaceCount == indentSpacingCounter){
+						Console.WriteLine("Same block");
 						newText += '\n' + new string('\t', Math.Max(indentSpacing, 0)) + line.Trim();
 					}else if(whitespaceCount > indentSpacingCounter){
+						Console.WriteLine("New block");
 						indentSpacing += 1;
 						newText += '\n' + new string('\t', Math.Max(indentSpacing, 0)) + line.Trim();
 					}else if(whitespaceCount < indentSpacingCounter){
+						Console.WriteLine("Returning to old block");
 						indentSpacing -= 1;
 						newText += '\n' + new string('\t', Math.Max(indentSpacing, 0)) + line.Trim();
 					}
