@@ -32,6 +32,7 @@ public partial class Form1 : Form
 			string fileType = Path.GetExtension(selectedFile);
 			Console.WriteLine("File type: " + fileType);
 
+			List<string> Unsupported = new List<string> { ".img", ".svg", ".png" };
 			if (fileType == ".png" || fileType == ".svg" || fileType == ".img")
 			{
 				Console.WriteLine("File type not supported");
@@ -76,14 +77,16 @@ public partial class Form1 : Form
 				List<string> MarkupBased = new List<string> { ".html", ".jsx" };
 				List<string> KeywordBased = new List<string> { ".lua" };
 				List<string> ExpressiveBased = new List<string> { ".scheme" };
+				List<string> SQLBased = new List<string> { ".sql" };
 
 				if (BraceBased.Contains(fileType))
 				{
 					int countOpenBracket = line.Count(c => c == '{');
 					int countCloseBracket = line.Count(c => c == '}');
 					bool offSetForClosingBracket = false;
-					if (countCloseBracket == 1 && countOpenBracket == 1){
-						if(line.IndexOf('{') > line.IndexOf('}'))
+					if (countCloseBracket == 1 && countOpenBracket == 1)
+					{
+						if (line.IndexOf('{') > line.IndexOf('}'))
 						{
 							offSetForClosingBracket = true;
 							indentSpacing -= 1;
@@ -97,17 +100,20 @@ public partial class Form1 : Form
 
 					newText += '\n' + new string('\t', Math.Max(indentSpacing, 0)) + line.Trim();
 
-					if (offSetForClosingBracket){
+					if (offSetForClosingBracket)
+					{
 						indentSpacing += 1;
 					}
 
 					//Change offset for next line
 					indentSpacing += countOpenBracket - countCloseBracket;
 				}
-				else if(IndentationBased.Contains(fileType)){
+				else if (IndentationBased.Contains(fileType))
+				{
 					//Is it a full comment
 					string simpleLine = line.Trim();
-					if(simpleLine[0] == '#'){
+					if (simpleLine[0] == '#')
+					{
 						newText += '\n' + new string('\t', Math.Max(indentSpacing, 0)) + line.Trim();
 						continue;
 					}
@@ -122,24 +128,32 @@ public partial class Form1 : Form
 							break;
 					}
 
-					if(whitespaceCount == indentSpacingCounter.Peek()){
+					if (whitespaceCount == indentSpacingCounter.Peek())
+					{
 						Console.WriteLine("Same block");
 						//No need to change indentSpacingCounter as equal right now
 						newText += '\n' + new string('\t', Math.Max(indentSpacing, 0)) + line.Trim();
-					}else if(whitespaceCount > indentSpacingCounter.Peek()){
+					}
+					else if (whitespaceCount > indentSpacingCounter.Peek())
+					{
 						Console.WriteLine("New block");
 						indentSpacing += 1;
 						indentSpacingCounter.Push(whitespaceCount);
 						newText += '\n' + new string('\t', Math.Max(indentSpacing, 0)) + line.Trim();
-					}else if(whitespaceCount < indentSpacingCounter.Peek()){
+					}
+					else if (whitespaceCount < indentSpacingCounter.Peek())
+					{
 						Console.WriteLine("Returning to old block");
-						while(true){
+						while (true)
+						{
 							indentSpacing -= 1;
 							indentSpacingCounter.Pop();
-							if(whitespaceCount == indentSpacingCounter.Peek()){
+							if (whitespaceCount == indentSpacingCounter.Peek())
+							{
 								break;
 							}
-							else if(whitespaceCount > indentSpacingCounter.Peek()){
+							else if (whitespaceCount > indentSpacingCounter.Peek())
+							{
 								//Incase of some sort of issue where indent is not seen before, this is a sort of failsafe
 								Console.WriteLine("Indent issue detected, failsafe activated");
 								indentSpacingCounter.Push(whitespaceCount);
