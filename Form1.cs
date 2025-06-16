@@ -164,6 +164,63 @@ public partial class Form1 : Form
 						newText += '\n' + new string('\t', Math.Max(indentSpacing, 0)) + line.Trim();
 					}
 				}
+				else if (SQLBased.Contains(fileType))
+				{
+					string processedLine = line.Trim();
+					string[] sqlKeywords = { "SELECT", "FROM", "WHERE", "GROUP BY", "ORDER BY", "HAVING", "JOIN", "INNER JOIN", 
+											"LEFT JOIN", "RIGHT JOIN", "ON", "AND", "OR", "INSERT", "UPDATE", "DELETE", "VALUES", 
+											"SET", "CREATE", "PROCEDURE", "INTO", "IN", "OUT", "INOUT", "AS", "BEGIN", "END" };
+
+					// Uppercase all SQL keywords
+					foreach (string keyword in sqlKeywords)
+					{
+						processedLine = System.Text.RegularExpressions.Regex.Replace(
+							processedLine,
+							$@"\b{keyword}\b",
+							match => match.Value.ToUpper(),
+							System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+					}
+
+					// Handle CREATE PROCEDURE param lists
+					if (processedLine.Contains("CREATE") && processedLine.Contains("PROCEDURE"))
+					{
+						// Detect start of param list
+						int paramStart = processedLine.IndexOf('(');
+						if (paramStart >= 0)
+						{
+							string beforeParams = processedLine.Substring(0, paramStart + 1);
+							string paramsAndAfter = processedLine.Substring(paramStart + 1);
+
+							// Split params by ',' to add new lines and tabs
+							string[] paramParts = paramsAndAfter.Split(',');
+							string formattedParams = "";
+
+							for (int i = 0; i < paramParts.Length; i++)
+							{
+								string param = paramParts[i].Trim();
+								// Add closing bracket ')' handling if present
+								if (param.Contains(")"))
+								{
+									int closeParenIndex = param.IndexOf(')');
+									string actualParam = param.Substring(0, closeParenIndex).Trim();
+									formattedParams += "\n\t" + actualParam + "\n)";
+								}
+								else
+								{
+									formattedParams += "\n\t" + param + ",";
+								}
+							}
+
+							// Remove last comma if present
+							if (formattedParams.EndsWith(","))
+								formattedParams = formattedParams.Substring(0, formattedParams.Length - 1);
+
+							processedLine = beforeParams + formattedParams;
+						}
+					}
+
+					newText += "\n" + new string('\t', Math.Max(indentSpacing, 0)) + processedLine;
+				}
 				else
 				{
 					newText += '\n' + line.TrimEnd();
